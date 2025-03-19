@@ -8,36 +8,39 @@ TurtleBot3 installed
 Dependencies as outlined in the original tutorial
 
 
+Step 1: Follow the tutorial provided by the teacher "Mapping.pdf"
 
-
-Step 1: Clone the Repository
+Step 2: Clone the Repository
 To get started, clone the repository to your local machine.
 
 cd ~/ros2_ws/src
 git clone https://github.com/Wlups/my_robot_controller.git
 git clone https://github.com/Wlups/turtlebot3_simulations.git
 
-Step 2: Install Required Packages
-Once the repositories are cloned, ensure you have all the necessary dependencies installed. In your terminal, run the following commands:
+Step 3: from ros2_ws/src/turtlebot3/simulations/turtlebot3/gazebo/launch/turtlebot3_world.launch.py
 
-sudo apt install ros-humble-gazebo-*
-sudo apt install ros-humble-turtlebot3-msgs
-sudo apt install ros-humble-turtlebot3
-sudo apt install ros-humble-cartographer
-sudo apt install ros-humble-cartographer-ros
-sudo apt install ros-humble-navigation2
-sudo apt install ros-humble-nav2-bringup
+change following
 
-Add TurtleBot3 Model and ROS Domain to .bashrc
 
-echo 'export TURTLEBOT3_MODEL=burger' >> ~/.bashrc
-echo 'export ROS_DOMAIN_ID=30' >> ~/.bashrc
-echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc
-source ~/.bashrc
+    world = os.path.join(
+        get_package_share_directory('turtlebot3_gazebo'),
+        'worlds',
+        'proov1.world'
+    )
 
-cd ~/ros2_ws
-source ~/.bashrc
+  And build the workspace and source it
 
-cd ~/ros2_ws
-colcon build --symlink-install
-source ~/.bashrc
+
+  Step 4. launch with new modified launch file:
+  
+  ros2 launch turtlebot3_gazebo turtlebot3_world.launch.p
+
+  Step 5. in another terminal Launch SLAM
+  
+  ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True
+
+  Step 6. IN another terminal launch the mapping node
+
+  ros2 run my_robot_controller mapping
+  
+
